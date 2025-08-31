@@ -15,8 +15,8 @@ class SystemUsers(Base):
     role = Column(Enum('admin', 'moderator', name='user_role_enum'), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, onupdate=datetime.utcnow)
-    user_id = Column(Integer, ForeignKey("users.internal_id"))  # קישור למשתמש בטבלת Users, אם יש צורך
+    user_id = Column(Integer, ForeignKey("users.internal_id"), nullable=True)  # הוסף nullable=True
 
+    # קשרים
     real_user = relationship("Users", back_populates="system_user")
-    properties = relationship("PropertyDetails", back_populates="system_user")
-    offers = relationship("Offer", back_populates="system_user")
+    properties = relationship("PropertyDetails", back_populates="seller", uselist=True)

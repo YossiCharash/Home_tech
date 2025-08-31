@@ -1,12 +1,12 @@
 from flask import Blueprint, jsonify, request
 import jwt
 import datetime
-import requests
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session
 from werkzeug.security import generate_password_hash
 
 from app.beackend.config import BaseConfig
+from app.beackend.database.connection import Connection
+from app.beackend.database.models.users import Users
 from app.beackend.database.models.system_user import SystemUsers
 
 # Secret key for signing JWT tokens
@@ -52,23 +52,42 @@ def verify_token(token):
 @register.route('/register', methods=['POST'])
 def register_user():
     data = request.get_json()
-    username = data.get("username")
-    password = data.get("password")
-    role = data.get("role")
+    id = data.get("id")
+    first_name = data.get("first_name")
+    last_name = data.get("last_name")
+    email = data.get("email")
+    phone_number = data.get("phone_number")
+    reputation_score = data.get("reputation_score", 0)
+    # username = data.get("username")
+    # password = data.get("password")
+    # role = data.get("role")
 
-    if not username or not password or not role:
+    if not id or not last_name or not first_name or not email or not phone_number:
         return jsonify({"message": "Missing required fields"}), 400
 
-    hashed_password = generate_password_hash(password)
+    # hashed_password = generate_password_hash(password)
 
     new_user = Users(
-        system_username=username,
-        password_hash=hashed_password,
-        role=role
+        id=id,
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        phone_number=phone_number,
+        reputation_score=reputation_score
     )
-
-    session = Session()
+    # system_user = SystemUsers(
+    #     system_username=username,
+    #     password_hash=hashed_password,
+    #     role=role,
+    #     real_user=new_user
+    # )
     try:
+        connection = BaseConfig().get_connection()
+        if not connection:
+            raise ValueError("Failed to retrieve a valid database connection.")
+        conn_instance = Connection(connection)  # Create an instance of Connection
+        session = conn_instance.get_session()
+        print(session)
         session.add(new_user)
         session.commit()
         return jsonify({"message": "User registered successfully"}), 201

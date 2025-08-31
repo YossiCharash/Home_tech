@@ -17,6 +17,6 @@ class Users(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, onupdate=datetime.utcnow)
 
-    properties = relationship("PropertiesDetails", back_populates="seller")
+    # תקן את הקשרים
     offers = relationship("Offer", back_populates="buyer")
-    system_user = relationship("SystemUsers", back_populates="real_user")
+    system_user = relationship("SystemUsers", back_populates="real_user", uselist=False)

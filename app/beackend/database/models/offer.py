@@ -13,11 +13,10 @@ class Offer(Base):
     property_id = Column(Integer, ForeignKey('properties_details.id'), nullable=False)
     buyer_id = Column(Integer, ForeignKey('users.internal_id'), nullable=False)
     amount = Column(DECIMAL(10, 2), nullable=False)
-    status = Column(Enum('pending', 'accepted', 'rejected', 'withdrawn',name='offer_status_enum'), default='pending')
+    status = Column(Enum('pending', 'accepted', 'rejected', 'withdrawn', name='offer_status_enum'), default='pending')
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, onupdate=datetime.utcnow)
 
-    # יחסים (Relationships) עם טבלאות אחרות
-    property = relationship("Property", back_populates="offers")
+    # יחסים
+    property = relationship("PropertyDetails", back_populates="offers")
     buyer = relationship("Users", back_populates="offers")
-    system_user = relationship("SystemUsers", back_populates="offers")
