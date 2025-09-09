@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.beackend.database import Base
+from beackend.database import Base
 from sqlalchemy import Column, Integer, Enum, DateTime, ForeignKey, DECIMAL
 from sqlalchemy.orm import relationship
 

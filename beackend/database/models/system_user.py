@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, DateTime, Enum, String, ForeignKey
 from sqlalchemy.orm import relationship
 
-from app.beackend.database import Base
+from beackend.database import Base
 
 
 class SystemUsers(Base):

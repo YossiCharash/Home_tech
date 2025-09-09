@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, Enum, DateTime, ForeignKey, DECIMAL, Text
 from sqlalchemy.orm import relationship
-from app.beackend.database import Base
+from beackend.database import Base
 
 
 class PropertyDetails(Base):

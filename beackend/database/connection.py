@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from app.beackend.config import BaseConfig
-from app.beackend.database import Base
+from beackend.config import BaseConfig
+from beackend.database import Base
 
 
 class Connection:
@@ -14,7 +14,6 @@ class Connection:
             cls._instance.engine = create_engine(connection_string, echo=False)
             cls._instance.Session = sessionmaker(bind=cls._instance.engine)
             # Create all tables in the database
-            Base.metadata.drop_all(cls._instance.engine)
             Base.metadata.create_all(cls._instance.engine)
         return cls._instance
 

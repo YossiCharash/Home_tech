@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from app.beackend.database import Base
+from beackend.database import Base
 
 
 class Users(Base):
